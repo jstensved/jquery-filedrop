@@ -67,7 +67,8 @@
       files;
 
   $.fn.filedrop = function(options) {
-    var opts = $.extend({}, default_opts, options),
+    var filedrop = this,
+    	opts = $.extend({}, default_opts, options),
         global_progress = [];
 
     this.on('drop', drop).on('dragstart', opts.dragStart).on('dragenter', dragEnter).on('dragover', dragOver).on('dragleave', dragLeave);
@@ -364,7 +365,7 @@
         global_progress[global_progress_index] = 0;
         globalProgress();
 
-        opts.uploadStarted(index, file, files_count);
+        opts.uploadStarted.apply(filedrop, [index, file, files_count])
 
         xhr.onload = function() {
             var serverResponse = null;
